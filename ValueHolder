@@ -1,0 +1,5 @@
+public class DropdownValueHolder
+{
+    // 0 = Turkish, 1 = German, 2 = English
+    public static int selectedValue = 2;
+}
