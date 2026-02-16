@@ -1,0 +1,56 @@
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Video;
+
+public class LanguageVideoSetter : MonoBehaviour
+{
+    [Header("Video Player")]
+    public VideoPlayer videoPlayer;
+
+    [Header("Target RawImage")]
+    public RawImage rawImage;
+
+    [Header("Video Clips (0=Turkish, 1=German, 2=English)")]
+    public VideoClip turkishVideo;
+    public VideoClip germanVideo;
+    public VideoClip englishVideo;
+
+    [Header("Textures (0=Turkish, 1=German, 2=English)")]
+    public Texture turkishTexture;
+    public Texture germanTexture;
+    public Texture englishTexture;
+
+    private int lastValue = -1;
+
+    void Update()
+    {
+        if (DropdownValueHolder.selectedValue != lastValue)
+        {
+            lastValue = DropdownValueHolder.selectedValue;
+            ApplySelection(lastValue);
+        }
+    }
+
+    void ApplySelection(int index)
+    {
+        switch (index)
+        {
+            case 0: // Turkish
+                videoPlayer.clip = turkishVideo;
+                rawImage.texture = turkishTexture;
+                break;
+
+            case 1: // German
+                videoPlayer.clip = germanVideo;
+                rawImage.texture = germanTexture;
+                break;
+
+            case 2: // English
+                videoPlayer.clip = englishVideo;
+                rawImage.texture = englishTexture;
+                break;
+        }
+
+        videoPlayer.Play();
+    }
+}
