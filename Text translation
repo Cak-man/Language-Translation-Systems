@@ -1,0 +1,56 @@
+using UnityEngine;
+using TMPro;
+using System.Collections;
+
+public class MultiLangText : MonoBehaviour
+{
+    [Header("Bağlantılar")]
+    public TMP_Text targetText;   // Yazının olduğu TMP Text (Inspector'dan bağla)
+    public TMP_Text referenceText; // Kullanıcının seçtiği, karşılaştırılacak TMP Text
+
+    [Header("Inspector'dan Yazacağın Dil Değerleri")]
+    public string turkishText;
+    public string englishText;
+    public string germanText;
+
+    [Header("Control Yazısı (Inspector'dan yazacaksın)")]
+    public string controlText; // Eğer referenceText.text = controlText ise çalışacak
+
+    private bool isRunning = false;
+
+    void Update()
+    {
+        if (isRunning) return;
+
+        // TMP içindeki yazı ile kontrol yazısı aynı mı?
+        if (referenceText != null && referenceText.text == controlText)
+        {
+            int lang = DropdownValueHolder.selectedValue; // Statik değeri al
+
+            StartCoroutine(ShowLanguageText(lang));
+        }
+    }
+
+    IEnumerator ShowLanguageText(int lang)
+    {
+        isRunning = true;
+
+        string selected = "";
+
+        // Seçili statik değere göre yazı seçilir
+        switch (lang)
+        {
+            case 0: selected = turkishText; break;
+            case 1: selected = germanText; break;
+            case 2: selected = englishText; break;
+        }
+
+        // Yazıyı 3 saniye göster
+        targetText.text = selected;
+        yield return new WaitForSeconds(3f);
+
+        // 3 saniye sonra yazıyı temizlemek istiyorsan boş bırak
+        targetText.text = "";
+        isRunning = false;
+    }
+}
